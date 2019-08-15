@@ -22,8 +22,6 @@ class Get {
 		let tables = [];
 		const $ = cheerio.load(data);
 		$('table').each(function () {
-			const name = $(this).find('h3').text();
-			const innerText = $(this).find('h3')[0].childNodes.find(e => e.type === 'text').nodeValue.toString().trim();
 			let table = [];
 			let headers = [];
 			$(this).find('thead tr th').each(function (i, element) {

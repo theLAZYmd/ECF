@@ -19,10 +19,10 @@ class Parse {
 		return arr.map(obj => {
 			return {
 				date: obj.list,
-				stdGrade: obj['Standardplay Grade'] ? obj['Standardplay Grade'].slice(-1) : null,
-				stdRating: obj['Standardplay Grade'] ? obj['Standardplay Grade'].slice(0, -1) : null,
-				rapidGrade: obj['Rapidplay Grade'] ? obj['Rapidplay Grade'].slice(-1) : null,
-				rapidRating: obj['Rapidplay Grade'] ? obj['Rapidplay Grade'].slice(0, -1) : null,
+				stdCategory: obj['Standardplay Grade'] ? obj['Standardplay Grade'].slice(-1) : null,
+				stdGrade: obj['Standardplay Grade'] ? obj['Standardplay Grade'].slice(0, -1) : null,
+				rapidCategory: obj['Rapidplay Grade'] ? obj['Rapidplay Grade'].slice(-1) : null,
+				rapidGrade: obj['Rapidplay Grade'] ? obj['Rapidplay Grade'].slice(0, -1) : null,
 			}
 		})
 	}
