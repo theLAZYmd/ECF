@@ -1,0 +1,33 @@
+{
+	"name": "ecf",
+	"version": "0.0.1",
+	"description": "A node-JS version of the English Chess Federation (ECF) grading database. Works by scraping the webpages generated (so you don't have to!), until such time they choose to build a proper API.",
+	"main": "index.js",
+	"scripts": {
+		"test": "node tests/test1.js"
+	},
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/theLAZYmd/ecf.git"
+	},
+	"keywords": [
+		"ecf",
+		"chess",
+		"grading",
+		"npm",
+		"database",
+		"query"
+	],
+	"author": "theLAZYmd",
+	"license": "MIT",
+	"bugs": {
+		"url": "https://github.com/theLAZYmd/ecf/issues"
+	},
+	"homepage": "https://github.com/theLAZYmd/ecf#readme",
+	"dependencies": {
+		"cheerio": "^1.0.0-rc.3",
+		"querystring": "^0.2.0",
+		"request": "^2.88.0",
+		"request-promise": "^4.2.4"
+	}
+}
