@@ -1,0 +1,31 @@
+class Parse {
+
+	static grading (arr) {
+		let header = '';
+		return arr.reduce((acc, curr) => {
+			if (curr.Field === 'Standard' || curr.Field === 'Rapid') {
+				header = curr.Field;
+				return acc;
+			}
+			if (header) {
+				if (typeof acc[header] !== 'object') acc[header] = {};
+				acc[header][curr.Field] = curr.Value;
+			} else acc[curr.Field] = curr.Value;
+			return acc;
+		}, {});
+	}
+
+	static history (arr) {
+		return arr.map(obj => {
+			return {
+				date: obj.list,
+				stdGrade: obj['Standardplay Grade'] ? obj['Standardplay Grade'].slice(-1) : null,
+				stdRating: obj['Standardplay Grade'] ? obj['Standardplay Grade'].slice(0, -1) : null,
+				rapidGrade: obj['Rapidplay Grade'] ? obj['Rapidplay Grade'].slice(-1) : null,
+				rapidRating: obj['Rapidplay Grade'] ? obj['Rapidplay Grade'].slice(0, -1) : null,
+			}
+		})
+	}
+}
+
+module.exports = Parse;
