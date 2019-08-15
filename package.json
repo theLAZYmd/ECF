@@ -26,7 +26,6 @@
 	"homepage": "https://github.com/theLAZYmd/ecf#readme",
 	"dependencies": {
 		"cheerio": "^1.0.0-rc.3",
-		"querystring": "^0.2.0",
 		"request": "^2.88.0",
 		"request-promise": "^4.2.4"
 	}

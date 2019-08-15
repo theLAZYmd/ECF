@@ -1,6 +1,5 @@
 const cheerio = require('cheerio');
 const rp = require('request-promise');
-const qs = require('querystring');
 
 const league = 'http://www.oxfordfusion.com/oca/GetLeagueSummaryResults.cfm?LeagueID=|&TeamID=|&Org=1';
 const ecf = 'http://www.ecfgrading.org.uk/new/player.php?PlayerCode=|';
@@ -68,7 +67,7 @@ class ECF {
 	/**
 	 * Gets an ECF profile from a user's ID
 	 * @param {string} id
-	 * @returns {Table}
+	 * @returns {Promise<Table>}
 	 * @public
 	 */
 	static async profile (code) {
