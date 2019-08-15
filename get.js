@@ -1,6 +1,15 @@
 const cheerio = require('cheerio');
 
 class Get {
+
+	static findChildren(obj, func) {
+		let children = [];
+		for (let child of obj.children || []) {
+			if (func(child)) children.push(child);
+			if (child.children) children.push(...Get.findChildren(child, func));
+		}
+		return children;
+	}
 	
 	/**
 	 * @typedef Table
@@ -44,12 +53,12 @@ class Get {
 					let header = headers[j] || columnNames[j];
 					if (!header) return;
 					if (obj[header]) return;
-					while (element.type !== 'text') {
-						if (!element.firstChild) return;
-						element = element.firstChild;
+					if (element.type !== 'text') {
+						let elements = Get.findChildren(element, child => child.type === 'text' && child.data && child.data.toString().trim());
+						element = elements.shift();
 					}
-					let str = element.data.toString().trim();
-					obj[header] = str || null;
+					let str = element ? element.data.toString().trim() : null;
+					obj[header] = str;
 				});
 				if (Object.values(obj).every(v => !v)) return;
 				let header = headers[0] || columnNames[0];
