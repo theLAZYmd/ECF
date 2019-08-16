@@ -1,5 +1,5 @@
 class Parse {
-
+	
 	static grading (arr) {
 		let header = '';
 		return arr.reduce((acc, curr) => {
@@ -9,6 +9,7 @@ class Parse {
 			}
 			if (header) {
 				if (typeof acc[header] !== 'object') acc[header] = {};
+				if (typeof curr.Value === 'string' && !curr.Value.startsWith('0') && !isNaN(Number(curr.Value))) curr.Value = Number(curr.Value);
 				acc[header][curr.Field] = curr.Value;
 			} else acc[curr.Field] = curr.Value;
 			return acc;
