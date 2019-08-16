@@ -108,7 +108,7 @@ class Parse {
 		}, {});
 	}
 	
-	static userResults(arr) {
+	static clubResults(arr) {
 		return arr;
 	}
 
