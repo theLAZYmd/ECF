@@ -75,7 +75,7 @@ class Parse {
 	static history (arr) {
 		return arr.map(obj => {
 			return {
-				date: obj.list,
+				date: obj.List,
 				stdCategory: obj['Standardplay Grade'] ? obj['Standardplay Grade'].slice(-1) : null,
 				stdGrade: obj['Standardplay Grade'] ? Number(obj['Standardplay Grade'].slice(0, -1)) : null,
 				rapidCategory: obj['Rapidplay Grade'] ? obj['Rapidplay Grade'].slice(-1) : null,
