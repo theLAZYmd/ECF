@@ -10,6 +10,17 @@ class Get {
 		}
 		return children;
 	}
+
+	static findText(obj) {
+		let x = Get.findChildren(obj, child => child.type === 'text' && child.data && child.data.toString().trim())
+		if (!x[0] || !x[0].data) return null;
+		return x
+			.shift()
+			.data
+			.toString()
+			.replace('*', '')
+			.trim();
+	}
 	
 	/**
 	 * @typedef Table
@@ -34,15 +45,15 @@ class Get {
 			let table = [];
 			let headers = [];
 			$(this).find('thead tr th').each(function (i, element) {
-				headers.push(element.firstChild.data);
+				headers.push(Get.findText(element));
 			});
 			if (!headers[0]) {
 				let inc = 0;
 				$(this).find('tbody tr th').each(function (i, element) {
-					headers[i + inc] = element.firstChild.data;
+					headers[i + inc] = Get.findText(element);
 					if (element.attribs.colspan === '2') {
 						inc++;
-						headers[i + inc] = element.firstChild.data;
+						headers[i + inc] = Get.findText(element);
 					}
 				});
 			}
@@ -54,11 +65,9 @@ class Get {
 					if (!header) return;
 					if (obj[header]) return;
 					if (element.type !== 'text') {
-						let elements = Get.findChildren(element, child => child.type === 'text' && child.data && child.data.toString().trim());
-						element = elements.shift();
+						element = Get.findText(element);
 					}
-					let str = element ? element.data.toString().trim() : null;
-					obj[header] = str;
+					obj[header] = element;
 				});
 				if (Object.values(obj).every(v => !v)) return;
 				let header = headers[0] || columnNames[0];

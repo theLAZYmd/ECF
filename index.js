@@ -5,10 +5,34 @@ const Get = require('./get');
 const Parse = require('./parse');
 
 const league = 'http://www.oxfordfusion.com/oca/GetLeagueSummaryResults.cfm?LeagueID=|&TeamID=|&Org=1';
-const ecf = 'http://www.ecfgrading.org.uk/new/player.php?PlayerCode=|';
+const profile = 'http://www.ecfgrading.org.uk/new/player.php?PlayerCode=|';
+const search = 'http://ecfgrading.org.uk/new/glist.php?&player=|';
 const fide = 'http://ratings.fide.com/card.phtml?event=|';
 
 class ECF {
+
+	
+	/**
+	 * Returns search data 
+	 * @param {string|AdvancedSearch} argument 
+	 */
+	static async search (argument, {
+			parse = false
+	}) {
+		const searchObj = Parse.searchstring(argument);
+		if (!searchObj.lastName) throw new SyntaxError('Must specifhy a last name to search');
+		let query = searchObj.lastName;
+		if (searchObj.firstName) query += ',%20' + searchObj.firstName;
+		const uri = search.replace('|', query);
+		const data = await rp.get({
+			uri,
+			timeout: 10000
+		});
+		const tables = Get.tables(data);
+		let [results] = tables;
+		if (parse) results = Parse.results(results);
+		return results;
+	}
 
 	/**
 	 * Gets an ECF profile from a user's ID
@@ -17,7 +41,7 @@ class ECF {
 	 * @public
 	 */
 	static async profile (code, parse = true) {
-		const uri = ecf.replace('|', code);
+		const uri = profile.replace('|', code);
 		const data = await rp.get({
 			uri,
 			timeout: 10000
@@ -31,18 +55,6 @@ class ECF {
 		return {
 			grading, history
 		};
-	}
-
-	async team () {
-		let uri = league.replace('|', ids[0][0]).replace('|', ids[0][1]);
-		let data = await rp.get({
-			uri,
-			timeout: 10000
-		});
-		let $ = cheerio.load(data);
-		$('table tr').each(function (i, element) {
-			console.log(element.innerHTML);
-		});
 	}
 
 }
