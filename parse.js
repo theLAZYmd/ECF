@@ -84,7 +84,7 @@ class Parse {
 		})
 	}
 
-	static results(arr) {
+	static userResults(arr) {
 		return arr.reduce((acc, curr) => {
 			let id = curr.Ref;
 			acc[id] = { id };
@@ -106,6 +106,10 @@ class Parse {
 			if (curr.Rapidplay) acc[id].age = Number(curr.Rapidplay);
 			return acc;
 		}, {});
+	}
+	
+	static userResults(arr) {
+		return arr;
 	}
 
 }
