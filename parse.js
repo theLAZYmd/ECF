@@ -87,25 +87,26 @@ class Parse {
 	static userResults(arr) {
 		return arr.reduce((acc, curr) => {
 			let id = curr.Ref;
-			acc[id] = { id };
-			if (curr.Member) acc[id].member = curr.Member;
+			let obj = {id};
+			if (curr.Member) obj.member = curr.Member;
 			if (curr.Name) {
-				acc[id].name = curr.Name;
-				let names = acc[id].name.split(',');
-				acc[id].lastName = names.shift();
+				obj.name = curr.Name;
+				let names = obj.name.split(',');
+				obj.lastName = names.shift();
 				if (names[0]) {
 					let remainder = names[0].trim().split(regexes.space);
-					acc[id].firstName = remainder.shift();
-					if (remainder[0]) acc[id].middleName = remainder.join(' ');
+					obj.firstName = remainder.shift();
+					if (remainder[0]) obj.middleName = remainder.join(' ');
 				}
 			}
-			if (curr.Age) acc[id].age = Number(curr.Age);
-			if (curr.Club) acc[id].club = curr.Club;
-			if (curr.Standard) acc[id].age = Number(curr.Standard);
-			if (curr.Previous) acc[id].age = Number(curr.Previous);
-			if (curr.Rapidplay) acc[id].age = Number(curr.Rapidplay);
+			if (curr.Age) obj.age = Number(curr.Age);
+			if (curr.Club) obj.club = curr.Club;
+			if (curr.Standard) obj.standard = Number(curr.Standard);
+			if (curr.Previous) obj.previous = Number(curr.Previous);
+			if (curr.Rapidplay) obj.rapidplay = Number(curr.Rapidplay);
+			acc.push(obj);
 			return acc;
-		}, {});
+		}, []);
 	}
 	
 	static clubResults(arr) {
