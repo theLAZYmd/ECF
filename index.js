@@ -85,6 +85,24 @@ class ECF {
 		};
 	}
 
+	/**
+	 * Gets an ECF profile from a user's ID
+	 * @param {string} id
+	 * @returns {Promise<Table>}
+	 * @public
+	 */
+	static async club (code, parse = true) {
+		const uri = club.replace('|', code);
+		const data = await rp.get({
+			uri,
+			timeout: 10000
+		});
+		const tables = Get.tables(data);
+		let [results] = tables;
+		if (parse) results = Parse.userResults(results);
+		return results;
+	}
+
 }
 
 module.exports = ECF;
