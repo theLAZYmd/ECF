@@ -1,6 +1,6 @@
 # ECF Query Database
 
-Scrapes the ECF Grading Database for results
+Scrapes the ECF Grading Database for results  
 Returns a promise (that needs to be awaited or .then-ed) to user data.
 
 ## Dependencies
@@ -17,7 +17,7 @@ const ECF = require('ecf');
 ## Usage
 
 ```js
-**ECF.endpointName(queryParam, parse?)
+ECF.endpointName(queryParam, parse?)
 ```
 - Call any endpoint in this package by simply appending it to the package name as a method.
 - Each endpoint takes a query parameter, be it an ID, a search parameter, or a name. Use it as the first argument to the function.
