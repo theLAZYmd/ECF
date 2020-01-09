@@ -2,6 +2,7 @@
 
 Scrapes the ECF Grading Database for results  
 Returns a promise (that needs to be awaited or .then-ed) to user data.
+Comes with typescript support.
 
 ## Dependencies
 - [cheerio](https://www.npmjs.com/package/cheerio)
@@ -9,7 +10,7 @@ Returns a promise (that needs to be awaited or .then-ed) to user data.
 - [request-promise](https://www.npmjs.com/package/request-promise)
 
 ## Installation
-- `npm install ecf`
+- `npm install ecf` (includes its own index.d.ts file)
 ```js
 const ECF = require('ecf');
 ```
