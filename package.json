@@ -1,9 +1,12 @@
 {
 	"name": "ecf",
-	"version": "1.0.3",
+	"version": "1.0.4",
 	"description": "A node-JS version of the English Chess Federation (ECF) grading database. Works by scraping the webpages generated (so you don't have to!), until such time they choose to build a proper API.",
 	"main": "lib/index.js",
 	"types": "lib/index.d.ts",
+	"files": [
+		"lib/"
+	],
 	"scripts": {
 		"build": "tsc",
 		"test": "node tests/test1.js"
