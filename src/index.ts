@@ -27,7 +27,7 @@ export default class ECF {
 	/**
 	 * Returns search data for users
 	 */
-	static async searchUsers(argument: string, parse: boolean = true): Promise<SearchProfile[] | RawSearchProfile[]> {
+	static async searchUsers(argument: string, parse: true | false = true): Promise<SearchProfile[] | RawSearchProfile[]> {
 		const searchObj = Parse.searchstring(argument);
 		if (!searchObj.lastName) throw new SyntaxError('Must specify a last name to search');
 		let query = searchObj.lastName;
