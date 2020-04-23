@@ -9,6 +9,13 @@ const clubs = 'http://ecfgrading.org.uk/new/glist.php?&club=|';
 const club = 'http://ecfgrading.org.uk/new/glist.php?Code=|';
 //const fide = 'http://ratings.fide.com/card.phtml?event=|';
 
+function compare(result: string | undefined, searchstring: string | undefined): boolean {
+	if (!searchstring) return true;
+	if (!result) return false;
+	let ss = searchstring.slice(0, result.length);
+	return result.toLowerCase().startsWith(ss.toLowerCase());
+}
+
 export default class ECF {
 
 	/**
@@ -42,10 +49,14 @@ export default class ECF {
 		if (parse) {
 			let rawResults = Parse.userResults(results);
 			return rawResults.filter((r) => {
-				if (searchObj.lastName && !r.lastName.toLowerCase().startsWith(searchObj.lastName?.toLowerCase())) return false;
-				if (searchObj.middleName && (!r.middleName || !r.middleName.toLowerCase().startsWith(searchObj.middleName?.toLowerCase())) )return false;
-				if (searchObj.firstName && (!r.firstName || !r.firstName.toLowerCase().startsWith(searchObj.firstName?.toLowerCase()))) return false;
+				if (!compare(r.lastName, searchObj.lastName)) return false;
+				if (!compare(r.middleName, searchObj.middleName)) return false;
+				if (!compare(r.firstName, searchObj.firstName)) return false;
 				return true;
+			}).sort((a, b) => {
+				if (searchObj.firstName?.toLowerCase() === b.firstName.toLowerCase()) return 1;
+				else if (searchObj.firstName?.toLowerCase() === a.firstName.toLowerCase()) return -1;
+				return b.name.length - a.name.length;
 			}).slice(0, nb);
 		}
 		return results.slice(0, nb);
