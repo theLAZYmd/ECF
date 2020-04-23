@@ -14,20 +14,20 @@ export default class ECF {
 	/**
 	 * Searches both clubs and users
 	 */
-	static async search (argument: string, parse: boolean = true): Promise<{
+	static async search (argument: string, nb: number = 10, parse: boolean = true): Promise<{
 		Users: SearchProfile[] | RawSearchProfile[],
 		Clubs: RawSearchProfile[] | SearchProfile[]
 	}> {
 		return {
-			Users: await ECF.searchUsers(argument, parse),
-			Clubs: await ECF.searchClubs(argument, parse),
+			Users: await ECF.searchUsers(argument, nb, parse),
+			Clubs: await ECF.searchClubs(argument, nb, parse),
 		}
 	}
 	
 	/**
 	 * Returns search data for users
 	 */
-	static async searchUsers(argument: string, parse: true | false = true): Promise<SearchProfile[] | RawSearchProfile[]> {
+	static async searchUsers(argument: string, nb: number = 10, parse: true | false = true): Promise<SearchProfile[] | RawSearchProfile[]> {
 		const searchObj = Parse.searchstring(argument);
 		if (!searchObj.lastName) throw new SyntaxError('Must specify a last name to search');
 		let query = searchObj.lastName;
@@ -39,21 +39,29 @@ export default class ECF {
 		});
 		const tables = Get.tables(data);
 		let results = tables[0] as RawSearchProfile[];
-		if (parse) return Parse.userResults(results);
-		return results;
+		if (parse) {
+			let rawResults = Parse.userResults(results);
+			return rawResults.filter((r) => {
+				if (searchObj.lastName && !r.lastName.toLowerCase().startsWith(searchObj.lastName?.toLowerCase())) return false;
+				if (searchObj.middleName && (!r.middleName || !r.middleName.toLowerCase().startsWith(searchObj.middleName?.toLowerCase())) )return false;
+				if (searchObj.firstName && (!r.firstName || !r.firstName.toLowerCase().startsWith(searchObj.firstName?.toLowerCase()))) return false;
+				return true;
+			}).slice(0, nb);
+		}
+		return results.slice(0, nb);
 	}
 	
 	/**
 	 * Returns search data for clubs
 	 */
-	static async searchClubs (searchstring = '', parse = true): Promise<RawSearchProfile[] | SearchProfile[]>  {
+	static async searchClubs (searchstring = '', nb: number = 10, parse = true): Promise<RawSearchProfile[] | SearchProfile[]>  {
 		const uri = clubs.replace('|', searchstring);
 		const data = await rp.get({
 			uri,
 			timeout: 10000
 		});
 		const tables = Get.tables(data);
-		let results = tables[0] as RawSearchProfile[]
+		let results = tables[0].slice(0, nb) as RawSearchProfile[]
 		if (parse) results = Parse.clubResults(results);
 		return results;
 	}
@@ -64,7 +72,7 @@ export default class ECF {
 	 * @returns {Promise<Table>}
 	 * @public
 	 */
-	static async profile(code: string, parse: boolean = true): Promise<{
+	static async profile(code: string, nb: number = 10, parse: boolean = true): Promise<{
 		grading: Profile,
 		history: History[]
 	} | {
@@ -77,7 +85,7 @@ export default class ECF {
 			timeout: 10000
 		}) as string;
 		const tables = Get.tables(data);
-		let [grading, history] = tables as unknown as [RawProfile[], RawHistory[]];
+		let [grading, history] = tables.map(t => t.slice(0, 10)) as [RawProfile[], RawHistory[]];
 		if (parse) {
 			return {
 				grading: Parse.grading(grading),
@@ -97,7 +105,7 @@ export default class ECF {
 			timeout: 10000
 		});
 		const tables = Get.tables(data)
-		let results = tables[0] as RawSearchProfile[];
+		let results = tables[0].slice(0, 10) as RawSearchProfile[];
 		//if (parse) return Parse.userResults(results);
 		return results;
 	}

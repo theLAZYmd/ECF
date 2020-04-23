@@ -25,7 +25,7 @@ export default class Parse {
 				let args = argument.split(',');
 				if (args.length > 2) throw new SyntaxError('max 1 comma in searchstring');
 				def.lastName = args[0].trim();
-				let remainder = args[1].split(regexes.spaces);
+				let remainder = args[1].trim().split(regexes.spaces);
 				def.firstName = remainder[0].trim();
 				def.middleName = remainder.slice(1).join(' ');
 			} else {
