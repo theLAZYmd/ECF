@@ -10,7 +10,7 @@ import {
 	RawProfile,
 	Profile,
 	ProfileRating
-} from "./interfaces";
+} from './interfaces';
 import * as regexes from './utils/regexes';
 
 export default class Parse {

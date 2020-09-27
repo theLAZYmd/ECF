@@ -1,4 +1,4 @@
-import { RawSearchProfile, RawProfile, SearchProfile, RawHistory, Table, Profile, History } from "./interfaces";
+import { RawSearchProfile, RawProfile, SearchProfile, RawHistory, Table, Profile, History } from './interfaces';
 import rp from 'request-promise';
 import Get from './get';
 import Parse from './parse';
@@ -54,8 +54,8 @@ export default class ECF {
 				if (!compare(r.firstName, searchObj.firstName)) return false;
 				return true;
 			}).sort((a, b) => {
-				if (searchObj.firstName?.toLowerCase() === b.firstName.toLowerCase()) return 1;
-				else if (searchObj.firstName?.toLowerCase() === a.firstName.toLowerCase()) return -1;
+				if (searchObj.firstName?.toLowerCase() === b.firstName?.toLowerCase()) return 1;
+				else if (searchObj.firstName?.toLowerCase() === a.firstName?.toLowerCase()) return -1;
 				return b.name.length - a.name.length;
 			}).slice(0, nb);
 		}
@@ -122,3 +122,5 @@ export default class ECF {
 	}
 
 }
+
+export * from './interfaces';
